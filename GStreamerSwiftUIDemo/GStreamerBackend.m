@@ -160,7 +160,7 @@ static void state_changed_cb (GstBus *bus, GstMessage *msg, GStreamerBackend *se
     
     /* Build pipeline */
     /* Change the RTSP URL to your desired URL below */
-    pipeline = gst_parse_launch("playbin uri=rtsp://username:password@ip_address/additional_stream_url", &error);
+    pipeline = gst_parse_launch("avfvideosrc device-index=1 ! video/x-raw, format=BGRA ! videoconvert ! autovideosink", &error);
     
     
     if (error && !GST_IS_ELEMENT(pipeline)) {

@@ -1,0 +1,4 @@
+# Exclude all directories named 'xcuserdata' and their contents
+# Exclude all files and directories with the extension '.xcuserdatad'
+**/xcuserdata/**
+**/*.xcuserdatad/**
