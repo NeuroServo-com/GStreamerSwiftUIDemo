@@ -47,7 +47,7 @@ GST_DEBUG_CATEGORY_STATIC (debug_category);
         self->ui_video_view = video_view;
         
         GST_DEBUG_CATEGORY_INIT (debug_category, "GStreamerSwiftUIDemo", 0, "GStreamerSwiftUIDemo-Backend");
-        gst_debug_set_threshold_for_name("GStreamerSwiftUIDemo", GST_LEVEL_INFO);
+        gst_debug_set_threshold_for_name("GStreamerSwiftUIDemo", GST_LEVEL_TRACE);
     }
     
     return self;
@@ -160,8 +160,9 @@ static void state_changed_cb (GstBus *bus, GstMessage *msg, GStreamerBackend *se
     
     /* Build pipeline */
     /* Change the RTSP URL to your desired URL below */
-    pipeline = gst_parse_launch("avfvideosrc device-index=1 ! video/x-raw, format=BGRA ! videoconvert ! autovideosink", &error);
-    
+//    pipeline = gst_parse_launch("avfvideosrc device-index=0 ! videoconvert ! autovideosink", &error);
+//    pipeline = gst_parse_launch("avfvideosrc device-index=1 ! videoconvert ! glimagesink", &error);
+      pipeline = gst_parse_launch("videotestsrc is-live=true ! video/x-raw, framerate=10/1, width=640, height=480 ! vtenc_h264_hw allow-frame-reordering=FALSE realtime=TRUE max-keyframe-interval=45 bitrate=500 ! h264parse ! video/x-h264,stream-format=avc,alignment=au,profile=baseline ! kvssink stream-name=neuroservo-sbelbin-test storage-size=128 access-key=AKIA2UC3CBZIP7KPF4EN secret-key=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", &error);
     
     if (error && !GST_IS_ELEMENT(pipeline)) {
         gchar *message = g_strdup_printf("Unable to build pipeline: %s", error->message);

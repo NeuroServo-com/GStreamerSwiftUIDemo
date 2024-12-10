@@ -21,9 +21,52 @@
 		095960282A40EB7100C0C1BC /* GStreamerBackendProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 095960272A40EB7100C0C1BC /* GStreamerBackendProtocol.swift */; };
 		0959602A2A40EB9400C0C1BC /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 095960292A40EB9400C0C1BC /* CameraView.swift */; };
 		0959602C2A40EBBE00C0C1BC /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0959602B2A40EBBE00C0C1BC /* CameraViewController.swift */; };
-		E47C66002CFE521B006B3E4D /* GStreamer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E47C65FF2CFE521B006B3E4D /* GStreamer.framework */; };
+		E409549E2D07909200168850 /* libpcre2-8.0.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = E409549C2D07905600168850 /* libpcre2-8.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		E409549F2D0790A100168850 /* libffi.7.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = E409549D2D07907D00168850 /* libffi.7.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		E40954A12D07910600168850 /* libgmodule-2.0.0.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = E40954A02D0790F800168850 /* libgmodule-2.0.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		E47C66022CFE56F7006B3E4D /* libiconv.2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E47C66012CFE56F7006B3E4D /* libiconv.2.tbd */; };
+		E4E3DB992D033FB2004EA647 /* libgstkvssink.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E4E3DB982D033FB2004EA647 /* libgstkvssink.dylib */; };
+		E4E3DBA12D034A2C004EA647 /* libgstkvssink.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = E4E3DB982D033FB2004EA647 /* libgstkvssink.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		E4E3DBB02D037F60004EA647 /* libgstapp-1.0.0.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = E4E3DBA52D036F11004EA647 /* libgstapp-1.0.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		E4E3DBB12D037F60004EA647 /* libgstbase-1.0.0.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = E4E3DBA62D036F34004EA647 /* libgstbase-1.0.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		E4E3DBB22D037F60004EA647 /* libgstreamer-1.0.0.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = E4E3DBA72D036F63004EA647 /* libgstreamer-1.0.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		E4E3DBB32D037F60004EA647 /* libglib-2.0.0.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = E4E3DBA82D036F7D004EA647 /* libglib-2.0.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		E4E3DBB42D037F60004EA647 /* libgobject-2.0.0.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = E4E3DBAB2D036FA5004EA647 /* libgobject-2.0.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		E4E3DBB52D037F60004EA647 /* libintl.8.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = E4E3DBAC2D036FEF004EA647 /* libintl.8.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		E4E3DBB62D037F60004EA647 /* libz.1.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = E4E3DBAD2D037002004EA647 /* libz.1.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		E4E3DBB72D037F60004EA647 /* libpsl.5.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = E4E3DBAE2D037018004EA647 /* libpsl.5.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		E4E3DBB82D037F60004EA647 /* librtmp.1.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = E4E3DBAF2D037030004EA647 /* librtmp.1.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		E4E3DBBA2D03823E004EA647 /* GStreamer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4E3DBB92D03823E004EA647 /* GStreamer.framework */; };
+		E4E3DBBB2D0382B7004EA647 /* GStreamer.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = E4E3DBB92D03823E004EA647 /* GStreamer.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E4E3DBBD2D039057004EA647 /* libnghttp2.14.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = E4E3DBBC2D039041004EA647 /* libnghttp2.14.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E4E3DBA02D034A14004EA647 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				E40954A12D07910600168850 /* libgmodule-2.0.0.dylib in CopyFiles */,
+				E409549F2D0790A100168850 /* libffi.7.dylib in CopyFiles */,
+				E409549E2D07909200168850 /* libpcre2-8.0.dylib in CopyFiles */,
+				E4E3DBBB2D0382B7004EA647 /* GStreamer.framework in CopyFiles */,
+				E4E3DBA12D034A2C004EA647 /* libgstkvssink.dylib in CopyFiles */,
+				E4E3DBB02D037F60004EA647 /* libgstapp-1.0.0.dylib in CopyFiles */,
+				E4E3DBB12D037F60004EA647 /* libgstbase-1.0.0.dylib in CopyFiles */,
+				E4E3DBB22D037F60004EA647 /* libgstreamer-1.0.0.dylib in CopyFiles */,
+				E4E3DBB32D037F60004EA647 /* libglib-2.0.0.dylib in CopyFiles */,
+				E4E3DBB42D037F60004EA647 /* libgobject-2.0.0.dylib in CopyFiles */,
+				E4E3DBB52D037F60004EA647 /* libintl.8.dylib in CopyFiles */,
+				E4E3DBB62D037F60004EA647 /* libz.1.dylib in CopyFiles */,
+				E4E3DBB72D037F60004EA647 /* libpsl.5.dylib in CopyFiles */,
+				E4E3DBB82D037F60004EA647 /* librtmp.1.dylib in CopyFiles */,
+				E4E3DBBD2D039057004EA647 /* libnghttp2.14.dylib in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		09595FFE2A407D3A00C0C1BC /* GStreamerSwiftUIDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GStreamerSwiftUIDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -44,9 +87,23 @@
 		095960272A40EB7100C0C1BC /* GStreamerBackendProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GStreamerBackendProtocol.swift; sourceTree = "<group>"; };
 		095960292A40EB9400C0C1BC /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		0959602B2A40EBBE00C0C1BC /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
-		E47C65FF2CFE521B006B3E4D /* GStreamer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GStreamer.framework; path = /Users/sbelbin/Library/Developer/GStreamer/iPhone.sdk/GStreamer.framework; sourceTree = "<absolute>"; };
+		E409549C2D07905600168850 /* libpcre2-8.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = "libpcre2-8.0.dylib"; sourceTree = "<group>"; };
+		E409549D2D07907D00168850 /* libffi.7.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libffi.7.dylib; sourceTree = "<group>"; };
+		E40954A02D0790F800168850 /* libgmodule-2.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = "libgmodule-2.0.0.dylib"; sourceTree = "<group>"; };
 		E47C66012CFE56F7006B3E4D /* libiconv.2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.2.tbd; path = usr/lib/libiconv.2.tbd; sourceTree = SDKROOT; };
 		E47C66122CFE74BA006B3E4D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E4E3DB982D033FB2004EA647 /* libgstkvssink.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libgstkvssink.dylib; sourceTree = "<group>"; };
+		E4E3DBA52D036F11004EA647 /* libgstapp-1.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = "libgstapp-1.0.0.dylib"; sourceTree = "<group>"; };
+		E4E3DBA62D036F34004EA647 /* libgstbase-1.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = "libgstbase-1.0.0.dylib"; sourceTree = "<group>"; };
+		E4E3DBA72D036F63004EA647 /* libgstreamer-1.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = "libgstreamer-1.0.0.dylib"; sourceTree = "<group>"; };
+		E4E3DBA82D036F7D004EA647 /* libglib-2.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = "libglib-2.0.0.dylib"; sourceTree = "<group>"; };
+		E4E3DBAB2D036FA5004EA647 /* libgobject-2.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = "libgobject-2.0.0.dylib"; sourceTree = "<group>"; };
+		E4E3DBAC2D036FEF004EA647 /* libintl.8.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libintl.8.dylib; sourceTree = "<group>"; };
+		E4E3DBAD2D037002004EA647 /* libz.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libz.1.dylib; sourceTree = "<group>"; };
+		E4E3DBAE2D037018004EA647 /* libpsl.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libpsl.5.dylib; sourceTree = "<group>"; };
+		E4E3DBAF2D037030004EA647 /* librtmp.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = librtmp.1.dylib; sourceTree = "<group>"; };
+		E4E3DBB92D03823E004EA647 /* GStreamer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GStreamer.framework; path = /Users/sbelbin/Library/Developer/GStreamer/iPhone.sdk/GStreamer.framework; sourceTree = "<absolute>"; };
+		E4E3DBBC2D039041004EA647 /* libnghttp2.14.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libnghttp2.14.dylib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,8 +112,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				E47C66022CFE56F7006B3E4D /* libiconv.2.tbd in Frameworks */,
+				E4E3DBBA2D03823E004EA647 /* GStreamer.framework in Frameworks */,
 				095960232A40D6D300C0C1BC /* libcmph.tbd in Frameworks */,
-				E47C66002CFE521B006B3E4D /* GStreamer.framework in Frameworks */,
+				E4E3DB992D033FB2004EA647 /* libgstkvssink.dylib in Frameworks */,
 				095960212A40D69400C0C1BC /* AudioToolbox.framework in Frameworks */,
 				0959601F2A40D67000C0C1BC /* AVFoundation.framework in Frameworks */,
 				095960172A407EF100C0C1BC /* libc++.1.tbd in Frameworks */,
@@ -115,13 +173,27 @@
 		0959600F2A407E6E00C0C1BC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E4E3DBB92D03823E004EA647 /* GStreamer.framework */,
 				E47C66012CFE56F7006B3E4D /* libiconv.2.tbd */,
 				095960222A40D6D300C0C1BC /* libcmph.tbd */,
 				095960202A40D69400C0C1BC /* AudioToolbox.framework */,
 				0959601E2A40D67000C0C1BC /* AVFoundation.framework */,
 				095960162A407EF100C0C1BC /* libc++.1.tbd */,
 				095960142A407EE700C0C1BC /* VideoToolbox.framework */,
-				E47C65FF2CFE521B006B3E4D /* GStreamer.framework */,
+				E4E3DB982D033FB2004EA647 /* libgstkvssink.dylib */,
+				E4E3DBA52D036F11004EA647 /* libgstapp-1.0.0.dylib */,
+				E4E3DBA62D036F34004EA647 /* libgstbase-1.0.0.dylib */,
+				E4E3DBA72D036F63004EA647 /* libgstreamer-1.0.0.dylib */,
+				E4E3DBA82D036F7D004EA647 /* libglib-2.0.0.dylib */,
+				E4E3DBAB2D036FA5004EA647 /* libgobject-2.0.0.dylib */,
+				E4E3DBBC2D039041004EA647 /* libnghttp2.14.dylib */,
+				E4E3DBAC2D036FEF004EA647 /* libintl.8.dylib */,
+				E4E3DBAD2D037002004EA647 /* libz.1.dylib */,
+				E4E3DBAE2D037018004EA647 /* libpsl.5.dylib */,
+				E4E3DBAF2D037030004EA647 /* librtmp.1.dylib */,
+				E409549C2D07905600168850 /* libpcre2-8.0.dylib */,
+				E409549D2D07907D00168850 /* libffi.7.dylib */,
+				E40954A02D0790F800168850 /* libgmodule-2.0.0.dylib */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -136,6 +208,7 @@
 				09595FFA2A407D3A00C0C1BC /* Sources */,
 				09595FFB2A407D3A00C0C1BC /* Frameworks */,
 				09595FFC2A407D3A00C0C1BC /* Resources */,
+				E4E3DBA02D034A14004EA647 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -346,7 +419,7 @@
 				FRAMEWORK_SEARCH_PATHS = "${HOME}/Library/Developer/GStreamer/iPhone.sdk/";
 				GENERATE_INFOPLIST_FILE = NO;
 				HEADER_SEARCH_PATHS = (
-					"/Users/sbelbin/tmp/cerbero/build/dist/ios_arm64/include/gstreamer-1.0",
+					/Users/sbelbin/Library/Developer/GStreamer/iPhone.sdk/GStreamer.framework/Headers/,
 					"/opt/homebrew/Cellar/glib/2.82.2/include/glib-2.0/",
 					"/opt/homebrew/Cellar/glib/2.82.2/lib/glib-2.0/include/",
 				);
@@ -358,7 +431,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_PREPROCESS = NO;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -424,7 +497,7 @@
 				FRAMEWORK_SEARCH_PATHS = "${HOME}/Library/Developer/GStreamer/iPhone.sdk/";
 				GENERATE_INFOPLIST_FILE = NO;
 				HEADER_SEARCH_PATHS = (
-					"/Users/sbelbin/tmp/cerbero/build/dist/ios_arm64/include/gstreamer-1.0",
+					/Users/sbelbin/Library/Developer/GStreamer/iPhone.sdk/GStreamer.framework/Headers/,
 					"/opt/homebrew/Cellar/glib/2.82.2/include/glib-2.0/",
 					"/opt/homebrew/Cellar/glib/2.82.2/lib/glib-2.0/include/",
 				);
@@ -436,7 +509,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_PREPROCESS = NO;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
