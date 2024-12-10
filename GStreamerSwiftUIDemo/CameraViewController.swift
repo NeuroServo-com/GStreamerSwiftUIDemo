@@ -97,11 +97,15 @@ import AVFoundation
     }
     
     @objc func gStreamerInitialized() {
+      DispatchQueue.main.async {
         self.gStreamerInitializationStatus = true
+      }
     }
     
     @objc func gstreamerSetUIMessageWithMessage(message: String) {
+      DispatchQueue.main.async {
         self.messageFromGstBackend = message
+      }
     }
     
     
