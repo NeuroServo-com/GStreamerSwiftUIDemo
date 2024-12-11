@@ -14,6 +14,8 @@
 #include <GStreamer/gst/video/video.h>
 #import "GStreamerSwiftUIDemo-Swift.h"
 
+#import <Foundation/Foundation.h>
+
 GST_DEBUG_CATEGORY_STATIC (debug_category);
 #define GST_CAT_DEFAULT debug_category
 
@@ -157,12 +159,34 @@ static void state_changed_cb (GstBus *bus, GstMessage *msg, GStreamerBackend *se
     /* Create our own GLib Main Context and make it the default one */
     context = g_main_context_new ();
     g_main_context_push_thread_default(context);
-    
+  
+    NSString* caCertPath = [[NSBundle mainBundle] pathForResource:@"curl-ca-bundle" ofType:@"crt" inDirectory:@"certs"];
+  
+    if (caCertPath == nil) {
+        [self setUIMessage:"Failed to find cacert.pem"];
+        return;
+    }
+  
+    const char* caCertPathCStr = [caCertPath fileSystemRepresentation];
+    setenv("CURL_CA_BUNDLE", caCertPathCStr, 1);
+  
+    char pipelineStr[1024];
+  
+    const char* awsRegion = "REPLACE_ME";
+    const char* awsAccessKey = "REPLACE_ME";
+    const char* awsSecretKey = "REPLACE_ME";
+
+//    snprintf(pipelineStr, sizeof(pipelineStr), "avfvideosrc device-index=0 ! videoconvert ! autovideosink");
+
+//    snprintf(pipelineStr, sizeof(pipelineStr), "videotestsrc is-live=true ! video/x-raw, framerate=10/1, width=640, height=480 ! vtenc_h264_hw allow-frame-reordering=FALSE realtime=TRUE max-keyframe-interval=45 bitrate=500 ! h264parse ! video/x-h264, stream-format=avc, alignment=au, profile=baseline ! autovideosink");
+
+  snprintf(pipelineStr, sizeof(pipelineStr), "videotestsrc is-live=true ! video/x-raw, framerate=10/1, width=640, height=480 ! vtenc_h264_hw allow-frame-reordering=FALSE realtime=TRUE max-keyframe-interval=45 bitrate=500 ! h264parse ! video/x-h264, stream-format=avc, alignment=au, profile=baseline ! kvssink stream-name=neuroservo-sbelbin-test storage-size=128 aws-region=%s access-key=%s secret-key=%s", awsRegion, awsAccessKey, awsSecretKey);
+
     /* Build pipeline */
     /* Change the RTSP URL to your desired URL below */
 //    pipeline = gst_parse_launch("avfvideosrc device-index=0 ! videoconvert ! autovideosink", &error);
 //    pipeline = gst_parse_launch("avfvideosrc device-index=1 ! videoconvert ! glimagesink", &error);
-      pipeline = gst_parse_launch("videotestsrc is-live=true ! video/x-raw, framerate=10/1, width=640, height=480 ! vtenc_h264_hw allow-frame-reordering=FALSE realtime=TRUE max-keyframe-interval=45 bitrate=500 ! h264parse ! video/x-h264,stream-format=avc,alignment=au,profile=baseline ! kvssink stream-name=neuroservo-sbelbin-test storage-size=128 access-key=AKIA2UC3CBZIP7KPF4EN secret-key=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", &error);
+      pipeline = gst_parse_launch(pipelineStr, &error);
     
     if (error && !GST_IS_ELEMENT(pipeline)) {
         gchar *message = g_strdup_printf("Unable to build pipeline: %s", error->message);

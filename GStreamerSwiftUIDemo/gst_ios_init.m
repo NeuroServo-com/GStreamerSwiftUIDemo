@@ -513,6 +513,9 @@ GST_PLUGIN_STATIC_DECLARE(rtmp);
 #if defined(GST_IOS_PLUGIN_NLE) || defined(GST_IOS_PLUGINS_GES)
 GST_PLUGIN_STATIC_DECLARE(nle);
 #endif
+#if defined(GST_IOS_PLUGIN_KVSSINK)
+GST_PLUGIN_STATIC_DECLARE(kvssink);
+#endif
 
 #if defined(GST_IOS_GIO_MODULE_OPENSSL)
   GST_G_IO_MODULE_DECLARE(openssl);
@@ -1075,6 +1078,9 @@ gst_ios_init (void)
 #endif
 #if defined(GST_IOS_PLUGIN_NLE) || defined(GST_IOS_PLUGINS_GES)
     GST_PLUGIN_STATIC_REGISTER(nle);
+#endif
+#if defined(GST_IOS_PLUGIN_KVSSINK)
+    GST_PLUGIN_STATIC_REGISTER(kvssink);
 #endif
 
   /* Lower the ranks of filesrc and giosrc so iosavassetsrc is

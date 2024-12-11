@@ -21,48 +21,27 @@
 		095960282A40EB7100C0C1BC /* GStreamerBackendProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 095960272A40EB7100C0C1BC /* GStreamerBackendProtocol.swift */; };
 		0959602A2A40EB9400C0C1BC /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 095960292A40EB9400C0C1BC /* CameraView.swift */; };
 		0959602C2A40EBBE00C0C1BC /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0959602B2A40EBBE00C0C1BC /* CameraViewController.swift */; };
-		E409549E2D07909200168850 /* libpcre2-8.0.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = E409549C2D07905600168850 /* libpcre2-8.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		E409549F2D0790A100168850 /* libffi.7.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = E409549D2D07907D00168850 /* libffi.7.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		E40954A12D07910600168850 /* libgmodule-2.0.0.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = E40954A02D0790F800168850 /* libgmodule-2.0.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		E40954B12D08961F00168850 /* libgstkvssink.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E40954AA2D08961F00168850 /* libgstkvssink.a */; };
+		E40954B22D08961F00168850 /* libkvspicUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E40954AB2D08961F00168850 /* libkvspicUtils.a */; };
+		E40954B32D08961F00168850 /* libKinesisVideoProducer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E40954AC2D08961F00168850 /* libKinesisVideoProducer.a */; };
+		E40954B42D08961F00168850 /* liblog4cplus.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E40954AD2D08961F00168850 /* liblog4cplus.a */; };
+		E40954B52D08961F00168850 /* libcproducer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E40954AE2D08961F00168850 /* libcproducer.a */; };
+		E40954B62D08961F00168850 /* libkvspic.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E40954AF2D08961F00168850 /* libkvspic.a */; };
+		E40954B72D08961F00168850 /* libkvsCommonCurl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E40954B02D08961F00168850 /* libkvsCommonCurl.a */; };
+		E40954C12D09DDA100168850 /* curl-ca-bundle.crt in CopyFiles */ = {isa = PBXBuildFile; fileRef = E40954C02D09DD6F00168850 /* curl-ca-bundle.crt */; };
+		E40954C42D09E80800168850 /* libcurl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E40954C32D09E7E900168850 /* libcurl.a */; };
 		E47C66022CFE56F7006B3E4D /* libiconv.2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E47C66012CFE56F7006B3E4D /* libiconv.2.tbd */; };
-		E4E3DB992D033FB2004EA647 /* libgstkvssink.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E4E3DB982D033FB2004EA647 /* libgstkvssink.dylib */; };
-		E4E3DBA12D034A2C004EA647 /* libgstkvssink.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = E4E3DB982D033FB2004EA647 /* libgstkvssink.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		E4E3DBB02D037F60004EA647 /* libgstapp-1.0.0.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = E4E3DBA52D036F11004EA647 /* libgstapp-1.0.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		E4E3DBB12D037F60004EA647 /* libgstbase-1.0.0.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = E4E3DBA62D036F34004EA647 /* libgstbase-1.0.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		E4E3DBB22D037F60004EA647 /* libgstreamer-1.0.0.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = E4E3DBA72D036F63004EA647 /* libgstreamer-1.0.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		E4E3DBB32D037F60004EA647 /* libglib-2.0.0.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = E4E3DBA82D036F7D004EA647 /* libglib-2.0.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		E4E3DBB42D037F60004EA647 /* libgobject-2.0.0.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = E4E3DBAB2D036FA5004EA647 /* libgobject-2.0.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		E4E3DBB52D037F60004EA647 /* libintl.8.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = E4E3DBAC2D036FEF004EA647 /* libintl.8.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		E4E3DBB62D037F60004EA647 /* libz.1.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = E4E3DBAD2D037002004EA647 /* libz.1.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		E4E3DBB72D037F60004EA647 /* libpsl.5.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = E4E3DBAE2D037018004EA647 /* libpsl.5.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		E4E3DBB82D037F60004EA647 /* librtmp.1.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = E4E3DBAF2D037030004EA647 /* librtmp.1.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		E4E3DBBA2D03823E004EA647 /* GStreamer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4E3DBB92D03823E004EA647 /* GStreamer.framework */; };
-		E4E3DBBB2D0382B7004EA647 /* GStreamer.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = E4E3DBB92D03823E004EA647 /* GStreamer.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		E4E3DBBD2D039057004EA647 /* libnghttp2.14.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = E4E3DBBC2D039041004EA647 /* libnghttp2.14.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		E4E3DBA02D034A14004EA647 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
+			dstPath = certs;
+			dstSubfolderSpec = 7;
 			files = (
-				E40954A12D07910600168850 /* libgmodule-2.0.0.dylib in CopyFiles */,
-				E409549F2D0790A100168850 /* libffi.7.dylib in CopyFiles */,
-				E409549E2D07909200168850 /* libpcre2-8.0.dylib in CopyFiles */,
-				E4E3DBBB2D0382B7004EA647 /* GStreamer.framework in CopyFiles */,
-				E4E3DBA12D034A2C004EA647 /* libgstkvssink.dylib in CopyFiles */,
-				E4E3DBB02D037F60004EA647 /* libgstapp-1.0.0.dylib in CopyFiles */,
-				E4E3DBB12D037F60004EA647 /* libgstbase-1.0.0.dylib in CopyFiles */,
-				E4E3DBB22D037F60004EA647 /* libgstreamer-1.0.0.dylib in CopyFiles */,
-				E4E3DBB32D037F60004EA647 /* libglib-2.0.0.dylib in CopyFiles */,
-				E4E3DBB42D037F60004EA647 /* libgobject-2.0.0.dylib in CopyFiles */,
-				E4E3DBB52D037F60004EA647 /* libintl.8.dylib in CopyFiles */,
-				E4E3DBB62D037F60004EA647 /* libz.1.dylib in CopyFiles */,
-				E4E3DBB72D037F60004EA647 /* libpsl.5.dylib in CopyFiles */,
-				E4E3DBB82D037F60004EA647 /* librtmp.1.dylib in CopyFiles */,
-				E4E3DBBD2D039057004EA647 /* libnghttp2.14.dylib in CopyFiles */,
+				E40954C12D09DDA100168850 /* curl-ca-bundle.crt in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -87,23 +66,18 @@
 		095960272A40EB7100C0C1BC /* GStreamerBackendProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GStreamerBackendProtocol.swift; sourceTree = "<group>"; };
 		095960292A40EB9400C0C1BC /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		0959602B2A40EBBE00C0C1BC /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
-		E409549C2D07905600168850 /* libpcre2-8.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = "libpcre2-8.0.dylib"; sourceTree = "<group>"; };
-		E409549D2D07907D00168850 /* libffi.7.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libffi.7.dylib; sourceTree = "<group>"; };
-		E40954A02D0790F800168850 /* libgmodule-2.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = "libgmodule-2.0.0.dylib"; sourceTree = "<group>"; };
+		E40954AA2D08961F00168850 /* libgstkvssink.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libgstkvssink.a; sourceTree = "<group>"; };
+		E40954AB2D08961F00168850 /* libkvspicUtils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libkvspicUtils.a; sourceTree = "<group>"; };
+		E40954AC2D08961F00168850 /* libKinesisVideoProducer.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libKinesisVideoProducer.a; sourceTree = "<group>"; };
+		E40954AD2D08961F00168850 /* liblog4cplus.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = liblog4cplus.a; sourceTree = "<group>"; };
+		E40954AE2D08961F00168850 /* libcproducer.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcproducer.a; sourceTree = "<group>"; };
+		E40954AF2D08961F00168850 /* libkvspic.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libkvspic.a; sourceTree = "<group>"; };
+		E40954B02D08961F00168850 /* libkvsCommonCurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libkvsCommonCurl.a; sourceTree = "<group>"; };
+		E40954C02D09DD6F00168850 /* curl-ca-bundle.crt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "curl-ca-bundle.crt"; sourceTree = "<group>"; };
+		E40954C32D09E7E900168850 /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcurl.a; sourceTree = "<group>"; };
 		E47C66012CFE56F7006B3E4D /* libiconv.2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.2.tbd; path = usr/lib/libiconv.2.tbd; sourceTree = SDKROOT; };
 		E47C66122CFE74BA006B3E4D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E4E3DB982D033FB2004EA647 /* libgstkvssink.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libgstkvssink.dylib; sourceTree = "<group>"; };
-		E4E3DBA52D036F11004EA647 /* libgstapp-1.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = "libgstapp-1.0.0.dylib"; sourceTree = "<group>"; };
-		E4E3DBA62D036F34004EA647 /* libgstbase-1.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = "libgstbase-1.0.0.dylib"; sourceTree = "<group>"; };
-		E4E3DBA72D036F63004EA647 /* libgstreamer-1.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = "libgstreamer-1.0.0.dylib"; sourceTree = "<group>"; };
-		E4E3DBA82D036F7D004EA647 /* libglib-2.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = "libglib-2.0.0.dylib"; sourceTree = "<group>"; };
-		E4E3DBAB2D036FA5004EA647 /* libgobject-2.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = "libgobject-2.0.0.dylib"; sourceTree = "<group>"; };
-		E4E3DBAC2D036FEF004EA647 /* libintl.8.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libintl.8.dylib; sourceTree = "<group>"; };
-		E4E3DBAD2D037002004EA647 /* libz.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libz.1.dylib; sourceTree = "<group>"; };
-		E4E3DBAE2D037018004EA647 /* libpsl.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libpsl.5.dylib; sourceTree = "<group>"; };
-		E4E3DBAF2D037030004EA647 /* librtmp.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = librtmp.1.dylib; sourceTree = "<group>"; };
 		E4E3DBB92D03823E004EA647 /* GStreamer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GStreamer.framework; path = /Users/sbelbin/Library/Developer/GStreamer/iPhone.sdk/GStreamer.framework; sourceTree = "<absolute>"; };
-		E4E3DBBC2D039041004EA647 /* libnghttp2.14.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libnghttp2.14.dylib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,14 +85,21 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E40954C42D09E80800168850 /* libcurl.a in Frameworks */,
 				E47C66022CFE56F7006B3E4D /* libiconv.2.tbd in Frameworks */,
 				E4E3DBBA2D03823E004EA647 /* GStreamer.framework in Frameworks */,
 				095960232A40D6D300C0C1BC /* libcmph.tbd in Frameworks */,
-				E4E3DB992D033FB2004EA647 /* libgstkvssink.dylib in Frameworks */,
 				095960212A40D69400C0C1BC /* AudioToolbox.framework in Frameworks */,
 				0959601F2A40D67000C0C1BC /* AVFoundation.framework in Frameworks */,
 				095960172A407EF100C0C1BC /* libc++.1.tbd in Frameworks */,
 				095960152A407EE700C0C1BC /* VideoToolbox.framework in Frameworks */,
+				E40954B12D08961F00168850 /* libgstkvssink.a in Frameworks */,
+				E40954B32D08961F00168850 /* libKinesisVideoProducer.a in Frameworks */,
+				E40954B42D08961F00168850 /* liblog4cplus.a in Frameworks */,
+				E40954B62D08961F00168850 /* libkvspic.a in Frameworks */,
+				E40954B22D08961F00168850 /* libkvspicUtils.a in Frameworks */,
+				E40954B52D08961F00168850 /* libcproducer.a in Frameworks */,
+				E40954B72D08961F00168850 /* libkvsCommonCurl.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -131,6 +112,7 @@
 				095960002A407D3A00C0C1BC /* GStreamerSwiftUIDemo */,
 				09595FFF2A407D3A00C0C1BC /* Products */,
 				0959600F2A407E6E00C0C1BC /* Frameworks */,
+				E40954C02D09DD6F00168850 /* curl-ca-bundle.crt */,
 			);
 			sourceTree = "<group>";
 		};
@@ -173,6 +155,14 @@
 		0959600F2A407E6E00C0C1BC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E40954C32D09E7E900168850 /* libcurl.a */,
+				E40954AE2D08961F00168850 /* libcproducer.a */,
+				E40954AA2D08961F00168850 /* libgstkvssink.a */,
+				E40954AC2D08961F00168850 /* libKinesisVideoProducer.a */,
+				E40954B02D08961F00168850 /* libkvsCommonCurl.a */,
+				E40954AF2D08961F00168850 /* libkvspic.a */,
+				E40954AB2D08961F00168850 /* libkvspicUtils.a */,
+				E40954AD2D08961F00168850 /* liblog4cplus.a */,
 				E4E3DBB92D03823E004EA647 /* GStreamer.framework */,
 				E47C66012CFE56F7006B3E4D /* libiconv.2.tbd */,
 				095960222A40D6D300C0C1BC /* libcmph.tbd */,
@@ -180,20 +170,6 @@
 				0959601E2A40D67000C0C1BC /* AVFoundation.framework */,
 				095960162A407EF100C0C1BC /* libc++.1.tbd */,
 				095960142A407EE700C0C1BC /* VideoToolbox.framework */,
-				E4E3DB982D033FB2004EA647 /* libgstkvssink.dylib */,
-				E4E3DBA52D036F11004EA647 /* libgstapp-1.0.0.dylib */,
-				E4E3DBA62D036F34004EA647 /* libgstbase-1.0.0.dylib */,
-				E4E3DBA72D036F63004EA647 /* libgstreamer-1.0.0.dylib */,
-				E4E3DBA82D036F7D004EA647 /* libglib-2.0.0.dylib */,
-				E4E3DBAB2D036FA5004EA647 /* libgobject-2.0.0.dylib */,
-				E4E3DBBC2D039041004EA647 /* libnghttp2.14.dylib */,
-				E4E3DBAC2D036FEF004EA647 /* libintl.8.dylib */,
-				E4E3DBAD2D037002004EA647 /* libz.1.dylib */,
-				E4E3DBAE2D037018004EA647 /* libpsl.5.dylib */,
-				E4E3DBAF2D037030004EA647 /* librtmp.1.dylib */,
-				E409549C2D07905600168850 /* libpcre2-8.0.dylib */,
-				E409549D2D07907D00168850 /* libffi.7.dylib */,
-				E40954A02D0790F800168850 /* libgmodule-2.0.0.dylib */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
