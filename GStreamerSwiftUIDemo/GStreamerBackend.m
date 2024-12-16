@@ -47,11 +47,11 @@ GST_DEBUG_CATEGORY_STATIC (debug_category);
     {
         self->ui_delegate = uiDelegate;
         self->ui_video_view = video_view;
-        
+
         GST_DEBUG_CATEGORY_INIT (debug_category, "GStreamerSwiftUIDemo", 0, "GStreamerSwiftUIDemo-Backend");
         gst_debug_set_threshold_for_name("GStreamerSwiftUIDemo", GST_LEVEL_TRACE);
     }
-    
+
     return self;
 }
 
@@ -110,7 +110,7 @@ static void error_cb (GstBus *bus, GstMessage *msg, GStreamerBackend *self)
     GError *err;
     gchar *debug_info;
     gchar *message_string;
-    
+
     gst_message_parse_error (msg, &err, &debug_info);
     message_string = g_strdup_printf ("Error received from element %s: %s", GST_OBJECT_NAME (msg->src), err->message);
     printf("Some error occured in from element %s: %s", GST_OBJECT_NAME (msg->src), err->message);
@@ -151,43 +151,85 @@ static void state_changed_cb (GstBus *bus, GstMessage *msg, GStreamerBackend *se
 /* Main method */
 -(void) run_app_pipeline
 {
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+
+    NSString* caBundleCertPath = [[NSBundle mainBundle] pathForResource:@"cert" ofType:@"pem" inDirectory:@"certs"];
+
+    if (caBundleCertPath == nil) {
+      [self setUIMessage:"Failed to find 'certs/cert.pem' file."];
+      return;
+    }
+
+    if (setenv("AWS_KVS_CACERT_PATH", [caBundleCertPath fileSystemRepresentation], 1) != 0) {
+      [self setUIMessage:"Failed to set 'AWS_KVS_CACERT_PATH' environment variable."];
+      return;
+    }
+
+    NSString *kvsLogConfigurationPath = [documentsDirectory stringByAppendingPathComponent:@"aws-kvs-log.cfg"] ?: @"";
+
+    if (kvsLogConfigurationPath.length != 0 && fileManager != nil) { // && ![fileManager fileExistsAtPath:kvsLogConfigurationPath]) {
+      NSString* kvsLogConfigurationBundlePath = [[NSBundle mainBundle] pathForResource:@"aws-kvs-log" ofType:@"cfg"];
+
+      if (kvsLogConfigurationBundlePath != nil) {
+        [fileManager removeItemAtPath: kvsLogConfigurationPath error:nil];
+        [fileManager copyItemAtPath:kvsLogConfigurationBundlePath toPath:kvsLogConfigurationPath error:nil];
+      }
+    }
+
+    NSString *kvsLogFolder = [documentsDirectory stringByAppendingPathComponent:@"logs"] ?: @"";
+
+    if (kvsLogFolder.length != 0 && fileManager != nil) {
+      [fileManager createDirectoryAtPath:kvsLogFolder withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+
+    setenv("AWS_KVS_LOGS_FOLDER", [kvsLogFolder fileSystemRepresentation], 1);
+
     GSource *bus_source;
     GError *error = NULL;
-    
+
     GST_DEBUG ("Creating pipeline");
-    
+
     /* Create our own GLib Main Context and make it the default one */
     context = g_main_context_new ();
     g_main_context_push_thread_default(context);
-  
-    NSString* caCertPath = [[NSBundle mainBundle] pathForResource:@"curl-ca-bundle" ofType:@"crt" inDirectory:@"certs"];
-  
-    if (caCertPath == nil) {
-        [self setUIMessage:"Failed to find cacert.pem"];
-        return;
-    }
-  
-    const char* caCertPathCStr = [caCertPath fileSystemRepresentation];
-    setenv("CURL_CA_BUNDLE", caCertPathCStr, 1);
-  
+
     char pipelineStr[1024];
-  
+
     const char* awsRegion = "REPLACE_ME";
     const char* awsAccessKey = "REPLACE_ME";
     const char* awsSecretKey = "REPLACE_ME";
+    const char* kvsLogConfigurationPathCStr = (kvsLogConfigurationPath != nil) ? [kvsLogConfigurationPath fileSystemRepresentation] : "";
 
 //    snprintf(pipelineStr, sizeof(pipelineStr), "avfvideosrc device-index=0 ! videoconvert ! autovideosink");
 
 //    snprintf(pipelineStr, sizeof(pipelineStr), "videotestsrc is-live=true ! video/x-raw, framerate=10/1, width=640, height=480 ! vtenc_h264_hw allow-frame-reordering=FALSE realtime=TRUE max-keyframe-interval=45 bitrate=500 ! h264parse ! video/x-h264, stream-format=avc, alignment=au, profile=baseline ! autovideosink");
 
-  snprintf(pipelineStr, sizeof(pipelineStr), "videotestsrc is-live=true ! video/x-raw, framerate=10/1, width=640, height=480 ! vtenc_h264_hw allow-frame-reordering=FALSE realtime=TRUE max-keyframe-interval=45 bitrate=500 ! h264parse ! video/x-h264, stream-format=avc, alignment=au, profile=baseline ! kvssink stream-name=neuroservo-sbelbin-test storage-size=128 aws-region=%s access-key=%s secret-key=%s", awsRegion, awsAccessKey, awsSecretKey);
+//  snprintf(pipelineStr, sizeof(pipelineStr), "videotestsrc is-live=true ! video/x-raw, framerate=10/1, width=640, height=480 ! vtenc_h264_hw allow-frame-reordering=FALSE realtime=TRUE max-keyframe-interval=45 bitrate=500 ! h264parse ! video/x-h264, stream-format=avc, alignment=au, profile=baseline ! kvssink stream-name=neuroservo-sbelbin-test storage-size=128 aws-region=%s access-key=%s secret-key=%s log-config=%s", awsRegion, awsAccessKey, awsSecretKey, kvsLogConfigurationPathCStr);
+
+//  snprintf(pipelineStr, sizeof(pipelineStr), "avfvideosrc ! autovideosink");
+
+//    snprintf(pipelineStr, sizeof(pipelineStr), "avfvideosrc ! video/x-h264, stream-format=avc ! kvssink stream-name=neuroservo-sbelbin-test storage-size=128 aws-region=%s access-key=%s secret-key=%s log-config=%s", awsRegion, awsAccessKey, awsSecretKey, kvsLogConfigurationPathCStr);
+
+//    snprintf(pipelineStr, sizeof(pipelineStr), "avfvideosrc device-index=0 ! video/x-raw ! videoconvert ! x264enc ! video/x-h264, stream-format=avc, alignment=au, profile=baseline ! kvssink stream-name=neuroservo-sbelbin-test storage-size=128 aws-region=%s access-key=%s secret-key=%s log-config=%s", awsRegion, awsAccessKey, awsSecretKey, kvsLogConfigurationPathCStr);
+
+//    snprintf(pipelineStr, sizeof(pipelineStr), "avfvideosrc ! vtenc_h265 ! kvssink stream-name=neuroservo-sbelbin-test storage-size=128 aws-region=%s access-key=%s secret-key=%s log-config=%s", awsRegion, awsAccessKey, awsSecretKey, kvsLogConfigurationPathCStr);
+
+  //   gst-launch-1.0 -v avfvideosrc ! video/x-raw,format=I420,width=1920,height=1080,framerate=30/1 ! videoconvert ! x264enc ! video/x-h264,stream-format=avc,alignment=au,profile=baseline ! kvssink stream-name="YourStreamName" aws-region="YourRegion" iot-certificate="iot-certificate,endpoint=credential-account-specific-prefix.credentials.iot.aws-region.amazonaws.com,cert-path=certificateID-certificate.pem.crt,key-path=certificateID-private.pem.key,ca-path=certificate.pem,role-aliases=YourRoleAlias,iot-thing-name=YourThingName"
+
+//  snprintf(pipelineStr, sizeof(pipelineStr), "avfvideosrc ! video/x-raw, width=1920, height=1080, framerate=30/1 ! videoconvert ! vtenc_h264 ! video/x-h264, stream-format=avc, alignment=au, profile=baseline ! kvssink stream-name=neuroservo-sbelbin-test storage-size=128 aws-region=%s access-key=%s secret-key=%s log-config=%s", awsRegion, awsAccessKey, awsSecretKey, kvsLogConfigurationPathCStr);
+
+  snprintf(pipelineStr, sizeof(pipelineStr), "avfvideosrc ! video/x-raw, width=1280, height=720, framerate=30/1 ! videoconvert ! vtenc_h265 ! kvssink stream-name=neuroservo-sbelbin-test storage-size=128 aws-region=%s access-key=%s secret-key=%s log-config=%s", awsRegion, awsAccessKey, awsSecretKey, kvsLogConfigurationPathCStr);
+
+    bool showLocalVideo = false;
 
     /* Build pipeline */
-    /* Change the RTSP URL to your desired URL below */
 //    pipeline = gst_parse_launch("avfvideosrc device-index=0 ! videoconvert ! autovideosink", &error);
 //    pipeline = gst_parse_launch("avfvideosrc device-index=1 ! videoconvert ! glimagesink", &error);
       pipeline = gst_parse_launch(pipelineStr, &error);
-    
+
     if (error && !GST_IS_ELEMENT(pipeline)) {
         gchar *message = g_strdup_printf("Unable to build pipeline: %s", error->message);
         g_clear_error (&error);
@@ -195,17 +237,24 @@ static void state_changed_cb (GstBus *bus, GstMessage *msg, GStreamerBackend *se
         g_free (message);
         return;
     }
-    
+
     /* Set the pipeline to READY, so it can already accept a window handle */
     gst_element_set_state(pipeline, GST_STATE_READY);
-    
-    video_sink = gst_bin_get_by_interface(GST_BIN(pipeline), GST_TYPE_VIDEO_OVERLAY);
-    if (!video_sink) {
-        GST_ERROR ("Could not retrieve video sink");
-        return;
+
+//    GstElement *base_sink = gst_bin_get_by_interface(GST_BIN(pipeline), GST_TYPE_BASE_SINK);
+//
+    if (showLocalVideo) {
+      video_sink = gst_bin_get_by_interface(GST_BIN(pipeline), GST_TYPE_VIDEO_OVERLAY);
+      if (video_sink != nil) {
+        gst_video_overlay_set_window_handle(GST_VIDEO_OVERLAY(video_sink), (guintptr) (id) ui_video_view);
+      }
     }
-    gst_video_overlay_set_window_handle(GST_VIDEO_OVERLAY(video_sink), (guintptr) (id) ui_video_view);
-    
+//
+//    if (base_sink == nil && video_sink == nil) {
+//      GST_ERROR ("Could not retrieve sink");
+//      return;
+//    }
+
     /* Signals to watch */
     bus = gst_element_get_bus (pipeline);
     bus_source = gst_bus_create_watch (bus);
@@ -216,7 +265,7 @@ static void state_changed_cb (GstBus *bus, GstMessage *msg, GStreamerBackend *se
     g_signal_connect (G_OBJECT (bus), "message::eos", (GCallback)eos_cb, (__bridge void *)self);
     g_signal_connect (G_OBJECT (bus), "message::state-changed", (GCallback)state_changed_cb, (__bridge void *)self);
     gst_object_unref (bus);
-    
+
     /* Create a GLib Main Loop and set it to run */
     GST_DEBUG ("Entering main loop...");
     printf("\nEntering main loop..\n");
@@ -227,12 +276,12 @@ static void state_changed_cb (GstBus *bus, GstMessage *msg, GStreamerBackend *se
     GST_DEBUG ("Exited main loop");
     g_main_loop_unref (main_loop);
     main_loop = NULL;
-    
+
     /* Free resources */
     g_main_context_pop_thread_default(context);
     g_main_context_unref (context);
     gst_element_set_state (pipeline, GST_STATE_NULL);
-    gst_object_unref (pipeline);    
+    gst_object_unref (pipeline);
     return;
 }
 
