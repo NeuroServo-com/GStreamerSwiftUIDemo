@@ -185,6 +185,12 @@ static void state_changed_cb (GstBus *bus, GstMessage *msg, GStreamerBackend *se
       [fileManager createDirectoryAtPath:kvsLogFolder withIntermediateDirectories:YES attributes:nil error:nil];
     }
 
+    NSString *videoFolder = [documentsDirectory stringByAppendingPathComponent:@"video"] ?: @"";
+  
+    if (videoFolder.length != 0 && fileManager != nil) {
+      [fileManager createDirectoryAtPath:videoFolder withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+  
     setenv("AWS_KVS_LOGS_FOLDER", [kvsLogFolder fileSystemRepresentation], 1);
 
     GSource *bus_source;
@@ -202,6 +208,7 @@ static void state_changed_cb (GstBus *bus, GstMessage *msg, GStreamerBackend *se
     const char* awsAccessKey = "REPLACE_ME";
     const char* awsSecretKey = "REPLACE_ME";
     const char* kvsLogConfigurationPathCStr = (kvsLogConfigurationPath != nil) ? [kvsLogConfigurationPath fileSystemRepresentation] : "";
+    const char* videoFolderCStr = [videoFolder fileSystemRepresentation];
 
 //    snprintf(pipelineStr, sizeof(pipelineStr), "avfvideosrc device-index=0 ! videoconvert ! autovideosink");
 
@@ -221,14 +228,42 @@ static void state_changed_cb (GstBus *bus, GstMessage *msg, GStreamerBackend *se
 
 //  snprintf(pipelineStr, sizeof(pipelineStr), "avfvideosrc ! video/x-raw, width=1920, height=1080, framerate=30/1 ! videoconvert ! vtenc_h264 ! video/x-h264, stream-format=avc, alignment=au, profile=baseline ! kvssink stream-name=neuroservo-sbelbin-test storage-size=128 aws-region=%s access-key=%s secret-key=%s log-config=%s", awsRegion, awsAccessKey, awsSecretKey, kvsLogConfigurationPathCStr);
 
-  snprintf(pipelineStr, sizeof(pipelineStr), "avfvideosrc ! video/x-raw, width=1280, height=720, framerate=30/1 ! videoconvert ! vtenc_h265 ! kvssink stream-name=neuroservo-sbelbin-test storage-size=128 aws-region=%s access-key=%s secret-key=%s log-config=%s", awsRegion, awsAccessKey, awsSecretKey, kvsLogConfigurationPathCStr);
+      ///
+      ///  Stream the iPad camera (rear camera) to a AWS KVS video-stream endpoint
+      ///
+//    snprintf(pipelineStr,
+//             sizeof(pipelineStr),
+//             "avfvideosrc ! video/x-raw, width=1280, height=720, framerate=30/1 ! videoconvert ! vtenc_h265 ! "
+//             "kvssink stream-name=neuroservo-sbelbin-test storage-size=128 aws-region=%s access-key=%s secret-key=%s log-config=%s",
+//             awsRegion, awsAccessKey, awsSecretKey, kvsLogConfigurationPathCStr);
+
+    ///
+    ///  Stream test audio pattern to a AWS KVS video-stream endpoint
+    ///
+//    snprintf(pipelineStr,
+//             sizeof(pipelineStr),
+//             "audiotestsrc ! audioconvert ! audioresample ! avenc_aac ! aacparse ! "
+//             "kvssink stream-name=neuroservo-sbelbin-test storage-size=128 aws-region=%s access-key=%s secret-key=%s log-config=%s",
+//             awsRegion, awsAccessKey, awsSecretKey, kvsLogConfigurationPathCStr);
+
+    ///
+    ///  Stream iPad camera with test audio pattern to a AWS KVS video-stream endpoint
+    ///
+    snprintf(pipelineStr,
+             sizeof(pipelineStr),
+             "avfvideosrc ! video/x-raw, width=1280, height=720, framerate=30/1 ! videoconvert ! vtenc_h264 ! h264parse ! queue ! mux. "
+             "osxaudiosrc ! audioconvert ! audioresample ! avenc_aac ! aacparse ! queue ! mux. "
+             "avimux name=mux ! "
+             "filesink location=%s/video.avi",
+             videoFolderCStr);
+//             "kvssink stream-name=neuroservo-sbelbin-test storage-size=128 aws-region=%s access-key=%s secret-key=%s log-config=%s",
+//             awsRegion, awsAccessKey, awsSecretKey, kvsLogConfigurationPathCStr);
+
+//  gst-launch-1.0 -v avfvideosrc ! videoconvert ! x264enc ! video/x-h264,stream-format=avc,alignment=au,profile=baseline ! alsasrc ! audio/x-raw,format=S16LE,channels=2,rate=44100 ! audioconvert ! audio/x-mp3, mpeg=1 ! kvssink stream-name="YourStreamName" aws-region="YourRegion" iot-certificate="iot-certificate,endpoint=credential-account-specific-prefix.credentials.iot.aws-region.amazonaws.com,cert-path=certificateID-certificate.pem.crt,key-path=certificateID-private.pem.key,ca-path=certificate.pem,role-aliases=YourRoleAlias,iot-thing-name=YourThingName"
 
     bool showLocalVideo = false;
 
-    /* Build pipeline */
-//    pipeline = gst_parse_launch("avfvideosrc device-index=0 ! videoconvert ! autovideosink", &error);
-//    pipeline = gst_parse_launch("avfvideosrc device-index=1 ! videoconvert ! glimagesink", &error);
-      pipeline = gst_parse_launch(pipelineStr, &error);
+    pipeline = gst_parse_launch(pipelineStr, &error);
 
     if (error && !GST_IS_ELEMENT(pipeline)) {
         gchar *message = g_strdup_printf("Unable to build pipeline: %s", error->message);
@@ -238,7 +273,6 @@ static void state_changed_cb (GstBus *bus, GstMessage *msg, GStreamerBackend *se
         return;
     }
 
-    /* Set the pipeline to READY, so it can already accept a window handle */
     gst_element_set_state(pipeline, GST_STATE_READY);
 
 //    GstElement *base_sink = gst_bin_get_by_interface(GST_BIN(pipeline), GST_TYPE_BASE_SINK);
