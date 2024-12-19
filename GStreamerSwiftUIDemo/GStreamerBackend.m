@@ -222,12 +222,17 @@ static void state_changed_cb (GstBus *bus, GstMessage *msg, GStreamerBackend *se
              " ! vtenc_h264 "
              " ! queue "
              " ! h264parse "
-             " ! video/x-h264, stream-format=avc, alignment=au, profile=baseline "
-             " ! kvssink name=aws-kvs-sink stream-name=neuroservo-sbelbin-test storage-size=128 aws-region=%s access-key=%s secret-key=%s log-config=%s",
-             awsRegion,
-             awsAccessKey,
-             awsSecretKey,
-             kvsLogConfigurationPathCStr);
+             " ! hlssink2 name=local-hls-sink max-files=4294967295 playlist-length=0 target-duration=5 location=%s/segment-%s.ts playlist-location=%s/playlist.m3u8 "
+             " audiotstsrc is-live=true wave=0 freq=440.0 volume=0.5 "
+             " ! queue "
+             " ! audioconvert "
+             " ! avenc_aac "
+             " ! queue "
+             " ! aacparse "
+             " ! local-hls-sink.audio",
+             videoFolderCStr,
+             "%5d",
+             videoFolderCStr);
 
       bool showLocalVideo = false;
 

@@ -72,27 +72,13 @@ import AVFoundation
     }
     
     func requestMicrophonePermission() {
-      switch AVAudioSession.sharedInstance().recordPermission {
-        case .granted:
-          // The user has previously granted access to the microphone.
-          break
-          
-        case .denied:
-          // The user has previously denied access.
-          break
-          
-        case .undetermined:
-          // The user has not yet been asked for microphone access.
-          AVAudioSession.sharedInstance().requestRecordPermission { granted in
-            if granted {
-              // Access granted.
-            } else {
-              // Access denied.
-            }
-          }
-          
-        @unknown default:
+      AVAudioApplication.requestRecordPermission { granted in
+        if granted {
+          // Access granted.
+        } else {
           fatalError()
+          // Access denied.
+        }
       }
     }
     
