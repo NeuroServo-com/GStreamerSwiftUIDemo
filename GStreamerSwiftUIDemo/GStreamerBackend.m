@@ -202,7 +202,7 @@ static void state_changed_cb (GstBus *bus, GstMessage *msg, GStreamerBackend *se
     context = g_main_context_new ();
     g_main_context_push_thread_default(context);
   
-    gst_debug_set_default_threshold(GST_LEVEL_DEBUG);
+//    gst_debug_set_default_threshold(GST_LEVEL_DEBUG);
 
     char pipelineStr[2048];
 
@@ -215,7 +215,7 @@ static void state_changed_cb (GstBus *bus, GstMessage *msg, GStreamerBackend *se
 
     snprintf(pipelineStr,
              sizeof(pipelineStr),
-             "avfvideosrc"
+             "avfvideosrc device-index=1 orientation=landscape-left"
              " ! tee name=video-raw-feed"
              
              // Encode the video stream to H.264
