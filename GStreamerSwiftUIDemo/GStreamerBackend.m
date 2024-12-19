@@ -185,7 +185,7 @@ static void state_changed_cb (GstBus *bus, GstMessage *msg, GStreamerBackend *se
       [fileManager createDirectoryAtPath:kvsLogFolder withIntermediateDirectories:YES attributes:nil error:nil];
     }
 
-    NSString *videoFolder = [documentsDirectory stringByAppendingPathComponent:@"video"] ?: @"";
+    NSString *videoFolder = [documentsDirectory stringByAppendingPathComponent:@"video/hls"] ?: @"";
   
     if (videoFolder.length != 0 && fileManager != nil) {
       [fileManager createDirectoryAtPath:videoFolder withIntermediateDirectories:YES attributes:nil error:nil];
@@ -249,17 +249,62 @@ static void state_changed_cb (GstBus *bus, GstMessage *msg, GStreamerBackend *se
     ///
     ///  Stream iPad camera with test audio pattern to a AWS KVS video-stream endpoint
     ///
-    snprintf(pipelineStr,
-             sizeof(pipelineStr),
-             "avfvideosrc ! video/x-raw, width=1280, height=720, framerate=30/1 ! videoconvert ! vtenc_h264 ! h264parse ! queue ! mux. "
-             "osxaudiosrc ! audioconvert ! audioresample ! avenc_aac ! aacparse ! queue ! mux. "
-             "avimux name=mux ! "
-             "filesink location=%s/video.avi",
-             videoFolderCStr);
+//    snprintf(pipelineStr,
+//             sizeof(pipelineStr),
+//             "avfvideosrc ! video/x-raw, width=1280, height=720, framerate=30/1 ! videoconvert ! vtenc_h264 ! h264parse ! queue ! mux. "
+//             "osxaudiosrc ! audioconvert ! audioresample ! avenc_aac ! aacparse ! queue ! mux. "
+//             "avimux name=mux ! "
+//             "filesink location=%s/video.avi",
+//             videoFolderCStr);
 //             "kvssink stream-name=neuroservo-sbelbin-test storage-size=128 aws-region=%s access-key=%s secret-key=%s log-config=%s",
 //             awsRegion, awsAccessKey, awsSecretKey, kvsLogConfigurationPathCStr);
 
 //  gst-launch-1.0 -v avfvideosrc ! videoconvert ! x264enc ! video/x-h264,stream-format=avc,alignment=au,profile=baseline ! alsasrc ! audio/x-raw,format=S16LE,channels=2,rate=44100 ! audioconvert ! audio/x-mp3, mpeg=1 ! kvssink stream-name="YourStreamName" aws-region="YourRegion" iot-certificate="iot-certificate,endpoint=credential-account-specific-prefix.credentials.iot.aws-region.amazonaws.com,cert-path=certificateID-certificate.pem.crt,key-path=certificateID-private.pem.key,ca-path=certificate.pem,role-aliases=YourRoleAlias,iot-thing-name=YourThingName"
+
+  snprintf(pipelineStr,
+           sizeof(pipelineStr),
+           "avfvideosrc "
+           " ! clockoverlay time-format=%s "
+           " ! tee name=video-raw-feed "
+           "osxaudiosrc "
+           " ! tee name=audio-raw-feed "
+           "video-raw-feed. "
+           " ! queue "
+           " ! video/x-raw, width=1280, height=720, framerate=30/1 "
+           " ! videoconvert "
+           " ! vtenc_h264 "
+           " ! tee name=video-h264-feed "
+           " audio-raw-feed. "
+           " ! queue "
+           " ! audioconvert "
+           " ! audioresample "
+           " ! avenc_aac "
+           " ! tee name=audio-aac-feed "
+           "video-h264-feed. "
+           " ! queue "
+           " ! h264parse "
+           " ! hlssink2 name=local-hls-sink max-files=4294967295 playlist-length=0 target-duration=5 location=%s/segment-%s.ts playlist-location=%s/playlist.m3u8 "
+           "audio-aac-feed. "
+           " ! queue "
+           " ! aacparse "
+           " ! local-hls-sink.audio "
+           "video-h264-feed. "
+           " ! queue "
+           " ! h264parse "
+           " ! video/x-h264, stream-format=avc, alignment=au, profile=baseline "
+           " ! kvssink name=aws-kvs-sink stream-name=neuroservo-sbelbin-test storage-size=128 aws-region=%s access-key=%s secret-key=%s log-config=%s "
+           "audio-aac-feed. "
+           " ! queue "
+           " ! aacparse "
+           " ! aws-kvs-sink.",
+           clockoverlayTimeFormat,
+           videoFolderCStr,
+           videoFolderCStr,
+           "%05d",
+           awsRegion,
+           awsAccessKey,
+           awsSecretKey,
+           kvsLogConfigurationPathCStr);
 
     bool showLocalVideo = false;
 
