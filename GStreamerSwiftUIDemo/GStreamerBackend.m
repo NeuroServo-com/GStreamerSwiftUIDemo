@@ -201,167 +201,90 @@ static void state_changed_cb (GstBus *bus, GstMessage *msg, GStreamerBackend *se
     /* Create our own GLib Main Context and make it the default one */
     context = g_main_context_new ();
     g_main_context_push_thread_default(context);
+  
+    gst_debug_set_default_threshold(GST_LEVEL_DEBUG);
 
-    char pipelineStr[1024];
+    char pipelineStr[2048];
 
+    const char* clockoverlayTimeFormat = "\"%a %B %d, %Y %I:%M:%S %p\"";
     const char* awsRegion = "REPLACE_ME";
     const char* awsAccessKey = "REPLACE_ME";
     const char* awsSecretKey = "REPLACE_ME";
     const char* kvsLogConfigurationPathCStr = (kvsLogConfigurationPath != nil) ? [kvsLogConfigurationPath fileSystemRepresentation] : "";
     const char* videoFolderCStr = [videoFolder fileSystemRepresentation];
 
-//    snprintf(pipelineStr, sizeof(pipelineStr), "avfvideosrc device-index=0 ! videoconvert ! autovideosink");
+    snprintf(pipelineStr,
+             sizeof(pipelineStr),
+             "avfvideosrc "
+             " ! queue "
+             " ! video/x-raw, width=1280, height=720, framerate=30/1 "
+             " ! videoconvert "
+             " ! vtenc_h264 "
+             " ! queue "
+             " ! h264parse "
+             " ! video/x-h264, stream-format=avc, alignment=au, profile=baseline "
+             " ! kvssink name=aws-kvs-sink stream-name=neuroservo-sbelbin-test storage-size=128 aws-region=%s access-key=%s secret-key=%s log-config=%s",
+             awsRegion,
+             awsAccessKey,
+             awsSecretKey,
+             kvsLogConfigurationPathCStr);
 
-//    snprintf(pipelineStr, sizeof(pipelineStr), "videotestsrc is-live=true ! video/x-raw, framerate=10/1, width=640, height=480 ! vtenc_h264_hw allow-frame-reordering=FALSE realtime=TRUE max-keyframe-interval=45 bitrate=500 ! h264parse ! video/x-h264, stream-format=avc, alignment=au, profile=baseline ! autovideosink");
+      bool showLocalVideo = false;
 
-//  snprintf(pipelineStr, sizeof(pipelineStr), "videotestsrc is-live=true ! video/x-raw, framerate=10/1, width=640, height=480 ! vtenc_h264_hw allow-frame-reordering=FALSE realtime=TRUE max-keyframe-interval=45 bitrate=500 ! h264parse ! video/x-h264, stream-format=avc, alignment=au, profile=baseline ! kvssink stream-name=neuroservo-sbelbin-test storage-size=128 aws-region=%s access-key=%s secret-key=%s log-config=%s", awsRegion, awsAccessKey, awsSecretKey, kvsLogConfigurationPathCStr);
+      pipeline = gst_parse_launch(pipelineStr, &error);
 
-//  snprintf(pipelineStr, sizeof(pipelineStr), "avfvideosrc ! autovideosink");
-
-//    snprintf(pipelineStr, sizeof(pipelineStr), "avfvideosrc ! video/x-h264, stream-format=avc ! kvssink stream-name=neuroservo-sbelbin-test storage-size=128 aws-region=%s access-key=%s secret-key=%s log-config=%s", awsRegion, awsAccessKey, awsSecretKey, kvsLogConfigurationPathCStr);
-
-//    snprintf(pipelineStr, sizeof(pipelineStr), "avfvideosrc device-index=0 ! video/x-raw ! videoconvert ! x264enc ! video/x-h264, stream-format=avc, alignment=au, profile=baseline ! kvssink stream-name=neuroservo-sbelbin-test storage-size=128 aws-region=%s access-key=%s secret-key=%s log-config=%s", awsRegion, awsAccessKey, awsSecretKey, kvsLogConfigurationPathCStr);
-
-//    snprintf(pipelineStr, sizeof(pipelineStr), "avfvideosrc ! vtenc_h265 ! kvssink stream-name=neuroservo-sbelbin-test storage-size=128 aws-region=%s access-key=%s secret-key=%s log-config=%s", awsRegion, awsAccessKey, awsSecretKey, kvsLogConfigurationPathCStr);
-
-  //   gst-launch-1.0 -v avfvideosrc ! video/x-raw,format=I420,width=1920,height=1080,framerate=30/1 ! videoconvert ! x264enc ! video/x-h264,stream-format=avc,alignment=au,profile=baseline ! kvssink stream-name="YourStreamName" aws-region="YourRegion" iot-certificate="iot-certificate,endpoint=credential-account-specific-prefix.credentials.iot.aws-region.amazonaws.com,cert-path=certificateID-certificate.pem.crt,key-path=certificateID-private.pem.key,ca-path=certificate.pem,role-aliases=YourRoleAlias,iot-thing-name=YourThingName"
-
-//  snprintf(pipelineStr, sizeof(pipelineStr), "avfvideosrc ! video/x-raw, width=1920, height=1080, framerate=30/1 ! videoconvert ! vtenc_h264 ! video/x-h264, stream-format=avc, alignment=au, profile=baseline ! kvssink stream-name=neuroservo-sbelbin-test storage-size=128 aws-region=%s access-key=%s secret-key=%s log-config=%s", awsRegion, awsAccessKey, awsSecretKey, kvsLogConfigurationPathCStr);
-
-      ///
-      ///  Stream the iPad camera (rear camera) to a AWS KVS video-stream endpoint
-      ///
-//    snprintf(pipelineStr,
-//             sizeof(pipelineStr),
-//             "avfvideosrc ! video/x-raw, width=1280, height=720, framerate=30/1 ! videoconvert ! vtenc_h265 ! "
-//             "kvssink stream-name=neuroservo-sbelbin-test storage-size=128 aws-region=%s access-key=%s secret-key=%s log-config=%s",
-//             awsRegion, awsAccessKey, awsSecretKey, kvsLogConfigurationPathCStr);
-
-    ///
-    ///  Stream test audio pattern to a AWS KVS video-stream endpoint
-    ///
-//    snprintf(pipelineStr,
-//             sizeof(pipelineStr),
-//             "audiotestsrc ! audioconvert ! audioresample ! avenc_aac ! aacparse ! "
-//             "kvssink stream-name=neuroservo-sbelbin-test storage-size=128 aws-region=%s access-key=%s secret-key=%s log-config=%s",
-//             awsRegion, awsAccessKey, awsSecretKey, kvsLogConfigurationPathCStr);
-
-    ///
-    ///  Stream iPad camera with test audio pattern to a AWS KVS video-stream endpoint
-    ///
-//    snprintf(pipelineStr,
-//             sizeof(pipelineStr),
-//             "avfvideosrc ! video/x-raw, width=1280, height=720, framerate=30/1 ! videoconvert ! vtenc_h264 ! h264parse ! queue ! mux. "
-//             "osxaudiosrc ! audioconvert ! audioresample ! avenc_aac ! aacparse ! queue ! mux. "
-//             "avimux name=mux ! "
-//             "filesink location=%s/video.avi",
-//             videoFolderCStr);
-//             "kvssink stream-name=neuroservo-sbelbin-test storage-size=128 aws-region=%s access-key=%s secret-key=%s log-config=%s",
-//             awsRegion, awsAccessKey, awsSecretKey, kvsLogConfigurationPathCStr);
-
-//  gst-launch-1.0 -v avfvideosrc ! videoconvert ! x264enc ! video/x-h264,stream-format=avc,alignment=au,profile=baseline ! alsasrc ! audio/x-raw,format=S16LE,channels=2,rate=44100 ! audioconvert ! audio/x-mp3, mpeg=1 ! kvssink stream-name="YourStreamName" aws-region="YourRegion" iot-certificate="iot-certificate,endpoint=credential-account-specific-prefix.credentials.iot.aws-region.amazonaws.com,cert-path=certificateID-certificate.pem.crt,key-path=certificateID-private.pem.key,ca-path=certificate.pem,role-aliases=YourRoleAlias,iot-thing-name=YourThingName"
-
-  snprintf(pipelineStr,
-           sizeof(pipelineStr),
-           "avfvideosrc "
-           " ! clockoverlay time-format=%s "
-           " ! tee name=video-raw-feed "
-           "osxaudiosrc "
-           " ! tee name=audio-raw-feed "
-           "video-raw-feed. "
-           " ! queue "
-           " ! video/x-raw, width=1280, height=720, framerate=30/1 "
-           " ! videoconvert "
-           " ! vtenc_h264 "
-           " ! tee name=video-h264-feed "
-           " audio-raw-feed. "
-           " ! queue "
-           " ! audioconvert "
-           " ! audioresample "
-           " ! avenc_aac "
-           " ! tee name=audio-aac-feed "
-           "video-h264-feed. "
-           " ! queue "
-           " ! h264parse "
-           " ! hlssink2 name=local-hls-sink max-files=4294967295 playlist-length=0 target-duration=5 location=%s/segment-%s.ts playlist-location=%s/playlist.m3u8 "
-           "audio-aac-feed. "
-           " ! queue "
-           " ! aacparse "
-           " ! local-hls-sink.audio "
-           "video-h264-feed. "
-           " ! queue "
-           " ! h264parse "
-           " ! video/x-h264, stream-format=avc, alignment=au, profile=baseline "
-           " ! kvssink name=aws-kvs-sink stream-name=neuroservo-sbelbin-test storage-size=128 aws-region=%s access-key=%s secret-key=%s log-config=%s "
-           "audio-aac-feed. "
-           " ! queue "
-           " ! aacparse "
-           " ! aws-kvs-sink.",
-           clockoverlayTimeFormat,
-           videoFolderCStr,
-           videoFolderCStr,
-           "%05d",
-           awsRegion,
-           awsAccessKey,
-           awsSecretKey,
-           kvsLogConfigurationPathCStr);
-
-    bool showLocalVideo = false;
-
-    pipeline = gst_parse_launch(pipelineStr, &error);
-
-    if (error && !GST_IS_ELEMENT(pipeline)) {
-        gchar *message = g_strdup_printf("Unable to build pipeline: %s", error->message);
-        g_clear_error (&error);
-        [self setUIMessage:message];
-        g_free (message);
-        return;
-    }
-
-    gst_element_set_state(pipeline, GST_STATE_READY);
-
-//    GstElement *base_sink = gst_bin_get_by_interface(GST_BIN(pipeline), GST_TYPE_BASE_SINK);
-//
-    if (showLocalVideo) {
-      video_sink = gst_bin_get_by_interface(GST_BIN(pipeline), GST_TYPE_VIDEO_OVERLAY);
-      if (video_sink != nil) {
-        gst_video_overlay_set_window_handle(GST_VIDEO_OVERLAY(video_sink), (guintptr) (id) ui_video_view);
+      if (error && !GST_IS_ELEMENT(pipeline)) {
+          gchar *message = g_strdup_printf("Unable to build pipeline: %s", error->message);
+          g_clear_error (&error);
+          [self setUIMessage:message];
+          g_free (message);
+          return;
       }
-    }
-//
-//    if (base_sink == nil && video_sink == nil) {
-//      GST_ERROR ("Could not retrieve sink");
-//      return;
-//    }
 
-    /* Signals to watch */
-    bus = gst_element_get_bus (pipeline);
-    bus_source = gst_bus_create_watch (bus);
-    g_source_set_callback (bus_source, (GSourceFunc) gst_bus_async_signal_func, NULL, NULL);
-    g_source_attach (bus_source, context);
-    g_source_unref (bus_source);
-    g_signal_connect (G_OBJECT (bus), "message::error", (GCallback)error_cb, (__bridge void *)self);
-    g_signal_connect (G_OBJECT (bus), "message::eos", (GCallback)eos_cb, (__bridge void *)self);
-    g_signal_connect (G_OBJECT (bus), "message::state-changed", (GCallback)state_changed_cb, (__bridge void *)self);
-    gst_object_unref (bus);
+      gst_element_set_state(pipeline, GST_STATE_READY);
 
-    /* Create a GLib Main Loop and set it to run */
-    GST_DEBUG ("Entering main loop...");
-    printf("\nEntering main loop..\n");
-    main_loop = g_main_loop_new (context, FALSE);
-    //sleep(5);
-    [self check_initialization_complete];
-    g_main_loop_run (main_loop);
-    GST_DEBUG ("Exited main loop");
-    g_main_loop_unref (main_loop);
-    main_loop = NULL;
+  //    GstElement *base_sink = gst_bin_get_by_interface(GST_BIN(pipeline), GST_TYPE_BASE_SINK);
+  //
+      if (showLocalVideo) {
+        video_sink = gst_bin_get_by_interface(GST_BIN(pipeline), GST_TYPE_VIDEO_OVERLAY);
+        if (video_sink != nil) {
+          gst_video_overlay_set_window_handle(GST_VIDEO_OVERLAY(video_sink), (guintptr) (id) ui_video_view);
+        }
+      }
+  //
+  //    if (base_sink == nil && video_sink == nil) {
+  //      GST_ERROR ("Could not retrieve sink");
+  //      return;
+  //    }
 
-    /* Free resources */
-    g_main_context_pop_thread_default(context);
-    g_main_context_unref (context);
-    gst_element_set_state (pipeline, GST_STATE_NULL);
-    gst_object_unref (pipeline);
-    return;
+      /* Signals to watch */
+      bus = gst_element_get_bus (pipeline);
+      bus_source = gst_bus_create_watch (bus);
+      g_source_set_callback (bus_source, (GSourceFunc) gst_bus_async_signal_func, NULL, NULL);
+      g_source_attach (bus_source, context);
+      g_source_unref (bus_source);
+      g_signal_connect (G_OBJECT (bus), "message::error", (GCallback)error_cb, (__bridge void *)self);
+      g_signal_connect (G_OBJECT (bus), "message::eos", (GCallback)eos_cb, (__bridge void *)self);
+      g_signal_connect (G_OBJECT (bus), "message::state-changed", (GCallback)state_changed_cb, (__bridge void *)self);
+      gst_object_unref (bus);
+
+      /* Create a GLib Main Loop and set it to run */
+      GST_DEBUG ("Entering main loop...");
+      printf("\nEntering main loop..\n");
+      main_loop = g_main_loop_new (context, FALSE);
+      //sleep(5);
+      [self check_initialization_complete];
+      g_main_loop_run (main_loop);
+      GST_DEBUG ("Exited main loop");
+      g_main_loop_unref (main_loop);
+      main_loop = NULL;
+
+      /* Free resources */
+      g_main_context_pop_thread_default(context);
+      g_main_context_unref (context);
+      gst_element_set_state (pipeline, GST_STATE_NULL);
+      gst_object_unref (pipeline);
+      return;
 }
 
 @end
