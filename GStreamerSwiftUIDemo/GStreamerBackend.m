@@ -215,26 +215,44 @@ static void state_changed_cb (GstBus *bus, GstMessage *msg, GStreamerBackend *se
 
     snprintf(pipelineStr,
              sizeof(pipelineStr),
-             "avfvideosrc "
-             " ! queue "
-             " ! video/x-raw, width=1280, height=720, framerate=30/1 "
-             " ! videoconvert "
-             " ! vtenc_h264 "
-             " ! queue "
-             " ! h264parse "
-             " ! hlssink2 name=local-hls-sink max-files=4294967295 playlist-length=0 target-duration=5 location=%s/segment-%s.ts playlist-location=%s/playlist.m3u8 "
-             " audiotstsrc is-live=true wave=0 freq=440.0 volume=0.5 "
-             " ! queue "
-             " ! audioconvert "
-             " ! avenc_aac "
-             " ! queue "
-             " ! aacparse "
-             " ! local-hls-sink.audio",
+             "avfvideosrc"
+             " ! tee name=video-raw-feed"
+             
+             // Encode the video stream to H.264
+             " video-raw-feed."
+             " ! queue"
+             " ! video/x-raw, width=1280, height=720, framerate=30/1"
+             " ! videoconvert"
+             " ! vtenc_h264"
+             " ! tee name=video-h264-feed"
+             
+             // Sink the video to the screen
+             " video-raw-feed."
+             " ! queue"
+             " ! autovideosink"
+             
+             // Sink the video to a local HLS stream
+             " video-h264-feed."
+             " ! queue"
+             " ! h264parse"
+             " ! hlssink2 name=local-hls-sink max-files=4294967295 playlist-length=0 target-duration=5 location=%s/%s playlist-location=%s/playlist.m3u8"
+             
+             // Sink the video to AWS KVS
+             " video-h264-feed."
+             " ! queue"
+             " ! h264parse"
+             " ! video/x-h264, stream-format=avc, alignment=au, profile=baseline"
+             " ! kvssink name=aws-kvs-sink stream-name=neuroservo-sbelbin-test storage-size=128 aws-region=%s access-key=%s secret-key=%s log-config=%s",
+             
              videoFolderCStr,
-             "%5d",
-             videoFolderCStr);
+             "segment-%05d.ts",
+             videoFolderCStr,
+             awsRegion,
+             awsAccessKey,
+             awsSecretKey,
+             kvsLogConfigurationPathCStr);
 
-      bool showLocalVideo = false;
+      bool showLocalVideo = true;
 
       pipeline = gst_parse_launch(pipelineStr, &error);
 
